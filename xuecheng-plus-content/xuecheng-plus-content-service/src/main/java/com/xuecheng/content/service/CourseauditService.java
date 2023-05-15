@@ -8,9 +8,12 @@ import com.xuecheng.content.model.po.CourseBase;
  */
 public interface CourseauditService {
     /**
-     * 提交审核接口
-     * @param id 课程id
-     * @return
+     * @description 提交审核
+     * @param courseId  课程id
+     * @return void
+     * @author Mr.M
+     * @date 2022/9/18 10:31
      */
-    CourseBase commit(Long id);
+    public void commitAudit(Long companyId,Long courseId);
+
 }

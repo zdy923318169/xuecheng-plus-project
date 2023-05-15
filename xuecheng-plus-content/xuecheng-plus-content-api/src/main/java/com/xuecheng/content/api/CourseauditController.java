@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CourseauditController {
     @Autowired
     private CourseauditService courseauditService;
-    @ApiOperation("提交审核")
-    @PostMapping("/courseaudit/commit/{id}")
-    public CourseBase commit(@PathVariable Long id ){
-        return courseauditService.commit(id);
+    @ResponseBody
+    @PostMapping ("/courseaudit/commit/{courseId}")
+    public void commitAudit(@PathVariable("courseId") Long courseId){
+        Long companyId = 1232141425L;
+        courseauditService.commitAudit(companyId,courseId);
+
     }
+
 }

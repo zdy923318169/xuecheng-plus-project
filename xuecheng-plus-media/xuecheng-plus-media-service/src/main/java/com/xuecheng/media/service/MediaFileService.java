@@ -9,6 +9,7 @@ import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public interface MediaFileService {
      * @param localFilePath       文件本地路径
      * @return UploadFileResultDto
      */
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath,String objectName);
 
     public MediaFiles addMediaFilesToDb(Long companyId, String fileMd5, UploadFileParamsDto uploadFileParamsDto, String bucket, String objectName);
 
@@ -59,26 +60,48 @@ public interface MediaFileService {
      * @date 2022/9/13 15:39
      */
     public RestResponse<Boolean> checkChunk(String fileMd5, int chunkIndex);
+
     /**
-     * @description 上传分块
-     * @param fileMd5  文件md5
-     * @param chunk  分块序号
-     * @param bytes  文件字节
+     * @param fileMd5 文件md5
+     * @param chunk   分块序号
      * @return com.xuecheng.base.model.RestResponse
+     * @description 上传分块
      * @author Mr.M
      * @date 2022/9/13 15:50
      */
-    public RestResponse uploadChunk(String fileMd5,int chunk,String localChunkFilePath);
+    public RestResponse uploadChunk(String fileMd5, int chunk, String localChunkFilePath);
 
     /**
-     * @description 合并分块
-     * @param companyId  机构id
-     * @param fileMd5  文件md5
-     * @param chunkTotal 分块总和
+     * @param companyId           机构id
+     * @param fileMd5             文件md5
+     * @param chunkTotal          分块总和
      * @param uploadFileParamsDto 文件信息
      * @return com.xuecheng.base.model.RestResponse
+     * @description 合并分块
      * @author Mr.M
      * @date 2022/9/13 15:56
      */
-    public RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
+    public RestResponse mergechunks(Long companyId, String fileMd5, int chunkTotal, UploadFileParamsDto uploadFileParamsDto);
+
+    /**
+     * 从minio下载文件
+     *
+     * @param bucket     桶
+     * @param objectName 对象名称
+     * @return 下载后的文件
+     */
+    public File downloadFileFromMinIO(String bucket, String objectName);
+
+    /**
+     * 将文件上传到minio
+     *
+     * @param localFilePath 文件本地路径
+     * @param mimeType      媒体类型
+     * @param bucket        桶
+     * @param objectName    对象名
+     * @return
+     */
+    public boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
+
+    MediaFiles getFileById(String mediaId);
 }
